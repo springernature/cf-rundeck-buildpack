@@ -13,7 +13,9 @@ cp ${BIN_DIR}/../startRundeck.sh ${BUILD_DIR}/startRundeck.sh
 chmod +x ${BUILD_DIR}/startRundeck.sh
 
 echo "-----> Installing Rundeck"
+export PATH=$PATH:${BUILD_DIR}/.java/bin
 export RDECK_BASE=${BUILD_DIR}
+
 java -jar ${BUILD_DIR}/rundeck.jar -b ${BUILD_DIR} --install-only
 
 echo "-----> Symlinking properties"
