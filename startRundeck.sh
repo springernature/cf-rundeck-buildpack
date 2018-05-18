@@ -13,8 +13,7 @@ echo "server.http.port=${PORT}\n" >> ./rundeck-config.properties
 perl -p -e 's/\$\{([^}]+)\}/defined $ENV{$1} ? $ENV{$1} : $&/eg; s/\$\{([^}]+)\}//eg' ./rundeck-config.properties > ./rundeck-config_replaced.properties
 mv ./rundeck-config_replaced.properties ./rundeck-config.properties
 
+
 echo "-----> Starting Rundeck"
-
 export RDECK_BASE=/home/vcap/app/
-
-java -jar /home/vcap/app/rundeck.jar -b /home/vcap/app/
+java -jar /home/vcap/app/rundeck.jar -b /home/vcap/app/ --skipinstall

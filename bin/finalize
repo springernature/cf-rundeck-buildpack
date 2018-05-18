@@ -8,11 +8,16 @@ CACHE_DIR=$2
 DEPS_DIR=$3
 INDEX=$4
 
-echo "-----> Symlinking properties"
-mkdir -p ${BUILD_DIR}/server/config
-cd ${BUILD_DIR}/server/config
-ln -s ../../rundeck-config.properties rundeck-config.properties
-
 echo "-----> Creating start script"
 cp ${BIN_DIR}/../startRundeck.sh ${BUILD_DIR}/startRundeck.sh
 chmod +x ${BUILD_DIR}/startRundeck.sh
+
+echo "-----> Installing Rundeck"
+export RDECK_BASE=${BUILD_DIR}
+java -jar ${BUILD_DIR}/rundeck.jar -b ${BUILD_DIR} --install-only
+
+echo "-----> Symlinking properties"
+cd ${BUILD_DIR}/server/config
+rm -f rundeck-config.properties
+ln -s ../../rundeck-config.properties rundeck-config.properties
+
