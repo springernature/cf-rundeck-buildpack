@@ -12,4 +12,4 @@ mv ./rundeck-config_replaced.properties ./rundeck-config.properties
 
 echo "-----> Starting Rundeck"
 export RDECK_BASE=/home/vcap/app/
-java -Dhttp.server.port=${PORT} -jar /home/vcap/app/rundeck.jar -b /home/vcap/app/ --skipinstall
+java -Dserver.http.port=${PORT} -jar /home/vcap/app/rundeck.jar -b /home/vcap/app/ --skipinstall
