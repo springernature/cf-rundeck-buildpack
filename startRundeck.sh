@@ -15,4 +15,5 @@ mv ./rundeck-config_replaced.properties ./rundeck-config.properties
 
 echo "-----> Starting Rundeck"
 
+export RDECK_BASE=/home/vcap/app/;
 java -jar /home/vcap/app/rundeck.jar
