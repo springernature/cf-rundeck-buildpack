@@ -31,7 +31,7 @@ replaceEnvVariables () {
 echo "-----> Replacing placeholder with env variables"
 cd ${BUILD_DIR}
 export -f replaceEnvVariables
-find -type f -not -path "./rundeck/*" -exec bash -c 'replaceEnvVariables "$0"' {} \;
+find -type f -not -path "./rundeck/*" -not -path "./.java/*" -exec bash -c 'replaceEnvVariables "$0"' {} \;
 
 ##################################################################################
 # Install Rundeck
@@ -50,7 +50,7 @@ java -jar ${RUNDECK_APP_DIR}/rundeck.jar \
 ##################################################################################
 echo "-----> Moving user config to rundeck"
 for DIRECTORY in */ ; do
-    if [ "${DIRECTORY}" != "rundeck/" ]; then
+    if [ "${DIRECTORY}" != "rundeck/" ] && [ "${DIRECTORY}" != ".java/" ]; then
         echo "       - $DIRECTORY"
         cp -r ${DIRECTORY} rundeck
         rm -rf ${DIRECTORY}
