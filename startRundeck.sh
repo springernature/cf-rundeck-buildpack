@@ -3,7 +3,7 @@
 BASE_PATH=/home/vcap/app
 
 echo "-----> Making java available"
-export PATH=$PATH:${BASE_PATH}.java/bin
+export PATH=$PATH:${BASE_PATH}/.java/bin
 
 echo "-----> Replacing environment variables"
 for file in ${BASE_PATH}/*
