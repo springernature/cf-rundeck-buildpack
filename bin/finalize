@@ -13,7 +13,6 @@ INDEX=$4
 RUNDECK_APP_DIR=${BUILD_DIR}/rundeck
 
 mkdir -p "$BUILD_DIR/rundeck"
-mkdir -p "$BUILD_DIR/config"
 
 echo "-----> Creating start scripts"
 cp ${BIN_DIR}/../startRundeck.sh ${RUNDECK_APP_DIR}/startRundeck.sh
@@ -28,4 +27,4 @@ java -jar ${RUNDECK_APP_DIR}/rundeck.jar \
         --installonly \
         -d
 
-mv ${RUNDECK_APP_DIR}/server/config ${BUILD_DIR}/config
+mv ${RUNDECK_APP_DIR}/server/config ${BUILD_DIR}
