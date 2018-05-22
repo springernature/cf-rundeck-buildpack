@@ -28,7 +28,7 @@ do
         replaceEnvVariables ${FILE}
         CONFIG_PATH=${BASE_PATH}/config/${FILE}
         echo "       move $FILE to $CONFIG_PATH"
-        mv ${FILE} $CONFIG_PATH
+        mv ${FILE} ${CONFIG_PATH}
     fi
 done
 
@@ -42,7 +42,7 @@ JAVA_CALL="${ADDITIONAL_ARGS} \
     -jar $RDECK_BASE/rundeck.jar \
     -b $RDECK_BASE \
     --skipinstall \
-    --configdir '${BASE_PATH}/config'"
+    -c '${BASE_PATH}/config'"
 
 echo "       execute 'java $JAVA_CALL'"
 java ${JAVA_CALL}
