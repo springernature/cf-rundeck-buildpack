@@ -24,7 +24,7 @@ if [ -f ${BASE_PATH}jaas-login.conf ]; then
 fi
 
 
-ADDITIONAL_ARGS="${ADDITIONAL_ARGS} -Dloginmodule.conf.name=jaas-loginmodule.conf -Dloginmodule.name=RDpropertyfilelogin"
+ADDITIONAL_ARGS="${ADDITIONAL_ARGS} -Dloginmodule.conf.name=jaas-login.conf -Dloginmodule.name=RDpropertyfilelogin"
 
 JAVA_CALL="${ADDITIONAL_ARGS} \
     -jar /home/vcap/app/rundeck.jar \
