@@ -16,7 +16,7 @@ echo "-----> Installing Rundeck"
 export PATH=$PATH:${BUILD_DIR}/.java/bin
 export RDECK_BASE=${BUILD_DIR}
 
-java -jar ${BUILD_DIR}/rundeck.jar -b ${BUILD_DIR} --installonly
+java -Drdeck.base="/home/vcap/app" -jar ${BUILD_DIR}/rundeck.jar -b ${BUILD_DIR} --installonly
 
 echo "-----> Symlinking properties"
 cd ${BUILD_DIR}/server/config
