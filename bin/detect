@@ -5,7 +5,7 @@ set -e
 BUILD_DIR=$1
 
 # This pack is valid for apps with sonar.properties
-if [[ -f ${BUILD_DIR}/rundeck-config.properties ]]; then
+if [[ -f ${BUILD_DIR}/server/config/rundeck-config.properties ]]; then
   echo "Rundeck!"
   exit 0
 else

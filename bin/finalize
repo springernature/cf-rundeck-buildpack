@@ -12,12 +12,29 @@ INDEX=$4
 
 RUNDECK_APP_DIR=${BUILD_DIR}/rundeck
 
-mkdir -p "$BUILD_DIR/rundeck"
+##################################################################################
+# Replacing placeholder with env variables, but not in Rundeck folder
+##################################################################################
 
-echo "-----> Creating start scripts"
-cp ${BIN_DIR}/../startRundeck.sh ${RUNDECK_APP_DIR}/startRundeck.sh
-chmod +x ${RUNDECK_APP_DIR}/startRundeck.sh
+replaceEnvVariables () {
+    FILENAME=$1
+    TEMP_FILENAME=${FILENAME}_replaced
 
+    echo "       in $FILENAME"
+
+    # Replace all environment variables with syntax ${MY_ENV_VAR} with the value
+    # thanks to https://stackoverflow.com/questions/5274343/replacing-environment-variables-in-a-properties-file
+    perl -p -e 's/\$\{([^}]+)\}/defined $ENV{$1} ? $ENV{$1} : $&/eg; s/\$\{([^}]+)\}//eg' ${FILENAME} > ${TEMP_FILENAME}
+    mv ${TEMP_FILENAME} ${FILENAME}
+}
+
+echo "-----> Replacing placeholder with env variables"
+cd ${BUILD_DIR}
+find -type f -not -path "./rundeck/*" -exec replaceEnvVariables {} \;
+
+##################################################################################
+# Install Rundeck
+##################################################################################
 echo "-----> Installing Rundeck"
 export PATH=$PATH:${BUILD_DIR}/.java/bin
 export RDECK_BASE=${RUNDECK_APP_DIR}
@@ -25,7 +42,37 @@ export RDECK_BASE=${RUNDECK_APP_DIR}
 java -jar ${RUNDECK_APP_DIR}/rundeck.jar \
         -b ${RUNDECK_APP_DIR} \
         --installonly \
-        -c "$BUILD_DIR/config" \
         -d
 
-mv ${RUNDECK_APP_DIR}/server/config ${BUILD_DIR}
+##################################################################################
+# Move all user folders to Rundeck folder
+##################################################################################
+echo "-----> Moving user config to rundeck"
+for DIRECTORY in */ ; do
+    if [ "${DIRECTORY}" != "rundeck/" ]; then
+        echo "       - $DIRECTORY"
+        cp -r ${DIRECTORY} rundeck
+        rm -rf ${DIRECTORY}
+    fi
+done
+
+
+##################################################################################
+# Handle role in web.xml
+##################################################################################
+echo "-----> Setting security role"
+if [ -z ${RUNDECK_SECURITY_ROLE+x} ];
+then
+    echo "       RUNDECK_SECURITY_ROLE is not set, skipping..."
+else
+    WEB_XML_PATH=./rundeck/server/exp/webapp/WEB-INF/web.xml
+    echo "       RUNDECK_SECURITY_ROLE is set to '$RUNDECK_SECURITY_ROLE', replacing in ${WEB_XML_PATH}"
+    sed -i "s/<role-name>user</role-name>/<role-name>${RUNDECK_SECURITY_ROLE}</role-name>/" ${WEB_XML_PATH}
+fi
+
+##################################################################################
+# Create start script
+##################################################################################
+echo "-----> Creating start scripts"
+cp ${BIN_DIR}/../startRundeck.sh ${BUILD_DIR}/startRundeck.sh
+chmod +x ${BUILD_DIR}/startRundeck.sh
