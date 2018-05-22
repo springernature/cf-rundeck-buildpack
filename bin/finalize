@@ -13,6 +13,7 @@ INDEX=$4
 RUNDECK_APP_DIR=${BUILD_DIR}/rundeck
 
 mkdir -p "$BUILD_DIR/rundeck"
+mkdir -p "$BUILD_DIR/config"
 
 echo "-----> Creating start scripts"
 cp ${BIN_DIR}/../startRundeck.sh ${RUNDECK_APP_DIR}/startRundeck.sh
