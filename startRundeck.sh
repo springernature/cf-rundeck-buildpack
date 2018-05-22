@@ -42,7 +42,7 @@ JAVA_CALL="${ADDITIONAL_ARGS} \
     -jar $RDECK_BASE/rundeck.jar \
     -b $RDECK_BASE \
     --skipinstall \
-    -c '${BASE_PATH}/config'"
+    -c '${BASE_PATH}/config' -d"
 
 echo "       execute 'java $JAVA_CALL'"
 java ${JAVA_CALL}
