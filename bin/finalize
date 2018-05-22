@@ -20,7 +20,7 @@ replaceEnvVariables () {
     FILENAME=$1
     TEMP_FILENAME=${FILENAME}_replaced
 
-    echo "       in $FILENAME"
+    echo "       handle $FILENAME"
 
     # Replace all environment variables with syntax ${MY_ENV_VAR} with the value
     # thanks to https://stackoverflow.com/questions/5274343/replacing-environment-variables-in-a-properties-file

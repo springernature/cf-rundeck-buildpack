@@ -7,5 +7,5 @@ BUILD_DIR=$1
 cat <<EOF
 ---
 default_process_types:
-  web: /home/vcap/app/rundeck/startRundeck.sh
+  web: /home/vcap/app/startRundeck.sh
 EOF
