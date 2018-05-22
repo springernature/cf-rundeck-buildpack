@@ -28,4 +28,5 @@ then
     exit 1
 fi
 
+mkdir -p ${BUILD_DIR}/rundeck
 wget "$RUNDECK_DIST_URL$RUNDECK_JAR" -O ${BUILD_DIR}/rundeck/rundeck.jar --no-check-certificate -q
