@@ -84,3 +84,6 @@ sleep 2
 echo "-----> Creating start scripts"
 cp ${BIN_DIR}/../startRundeck.sh ${BUILD_DIR}/startRundeck.sh
 chmod +x ${BUILD_DIR}/startRundeck.sh
+
+
+echo "-----> Done :)"
