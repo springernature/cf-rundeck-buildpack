@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 FILENAME=$1
 TEMP_FILENAME=${FILENAME}_replaced
 

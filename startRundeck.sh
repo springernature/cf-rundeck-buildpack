@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 BASE_PATH=/home/vcap/app
 
 echo "-----> Making java available"
