@@ -8,7 +8,7 @@ export PATH=$PATH:${BASE_PATH}/.java/bin
 echo "-----> Replacing environment variables"
 for file in ${BASE_PATH}/*
 do
-    if [[ -f ${file} ]]; then
+    if [ -f "${file}" ]; then
         echo "       in $file"
         ./replaceEnvVariables.sh ${file}
     fi
