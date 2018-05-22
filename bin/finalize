@@ -25,7 +25,7 @@ export RDECK_BASE=${RUNDECK_APP_DIR}
 java -jar ${RUNDECK_APP_DIR}/rundeck.jar \
         -b ${RUNDECK_APP_DIR} \
         --installonly \
-        -c '${BUILD_DIR}/config' \
+        -c "$BUILD_DIR/config" \
         -d
 
 mv ${RUNDECK_APP_DIR}/server/config ${BUILD_DIR}
