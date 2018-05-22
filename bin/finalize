@@ -16,9 +16,7 @@ mkdir -p "$BUILD_DIR/rundeck"
 
 echo "-----> Creating start scripts"
 cp ${BIN_DIR}/../startRundeck.sh ${RUNDECK_APP_DIR}/startRundeck.sh
-cp ${BIN_DIR}/../replaceEnvVariables.sh ${RUNDECK_APP_DIR}/replaceEnvVariables.sh
 chmod +x ${RUNDECK_APP_DIR}/startRundeck.sh
-chmod +x ${RUNDECK_APP_DIR}/replaceEnvVariables.sh
 
 echo "-----> Installing Rundeck"
 export PATH=$PATH:${BUILD_DIR}/.java/bin
