@@ -1,3 +1,3 @@
 # Cloud Foundry Rundeck Buildpack
 
-## ! WIP not usable at them moment
+## ! WIP not usable at the moment
