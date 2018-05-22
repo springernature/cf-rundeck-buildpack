@@ -19,12 +19,16 @@ replaceEnvVariables () {
 echo "-----> Making java available"
 export PATH=$PATH:${BASE_PATH}/.java/bin
 
-echo "-----> Replacing environment variables"
-for file in ${BASE_PATH}/*
+echo "-----> Replacing environment variables and moving property files"
+cd ${BASE_PATH}
+for FILE in ./*
 do
-    if [ -f "${file}" ]; then
-        echo "       in $file"
-        replaceEnvVariables ${file}
+    if [ -f "${FILE}" ]; then
+        echo "       replace envs in $FILE"
+        replaceEnvVariables ${FILE}
+        CONFIG_PATH=${BASE_PATH}/config/${FILE}
+        echo "       move $FILE to $CONFIG_PATH"
+        mv ${FILE} $CONFIG_PATH
     fi
 done
 
@@ -38,7 +42,7 @@ JAVA_CALL="${ADDITIONAL_ARGS} \
     -jar $RDECK_BASE/rundeck.jar \
     -b $RDECK_BASE \
     --skipinstall \
-    --configdir '${BASE_PATH}'"
+    --configdir '${BASE_PATH}/config'"
 
 echo "       execute 'java $JAVA_CALL'"
 java ${JAVA_CALL}
