@@ -1,7 +1,9 @@
 #!/bin/sh
 
+BASE_PATH=/home/vcap/app/
+
 echo "-----> Making java available"
-export PATH=$PATH:/home/vcap/app/.java/bin
+export PATH=$PATH:${BASE_PATH}.java/bin
 
 echo "-----> Setting rundeck-config.properties"
 # Replace all environment variables with syntax ${MY_ENV_VAR} with the value
@@ -11,5 +13,20 @@ mv ./rundeck-config_replaced.properties ./rundeck-config.properties
 
 
 echo "-----> Starting Rundeck"
-export RDECK_BASE=/home/vcap/app/
-java -Dserver.http.port=${PORT} -jar /home/vcap/app/rundeck.jar -b /home/vcap/app/ --skipinstall
+export RDECK_BASE=${BASE_PATH}
+
+ADDITIONAL_ARGS="-Dserver.http.port=${PORT}"
+
+if [ -f ${BASE_PATH}jaas-login.conf ]; then
+    perl -p -e 's/\$\{([^}]+)\}/defined $ENV{$1} ? $ENV{$1} : $&/eg; s/\$\{([^}]+)\}//eg' ./jaas-login.conf > ./jaas-login_replaced.conf
+    mv ./jaas-login_replaced.conf ./jaas-login.conf
+    ADDITIONAL_ARGS="${ADDITIONAL_ARGS} -Dloginmodule.conf.name=jaas-login.conf -Dloginmodule.name=login"
+fi
+
+
+ADDITIONAL_ARGS="${ADDITIONAL_ARGS} -Dloginmodule.conf.name=jaas-loginmodule.conf -Dloginmodule.name=RDpropertyfilelogin"
+
+java ${ADDITIONAL_ARGS} \
+    -jar /home/vcap/app/rundeck.jar \
+    -b ${BASE_PATH} \
+    --skipinstall
