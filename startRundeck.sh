@@ -26,7 +26,10 @@ fi
 
 ADDITIONAL_ARGS="${ADDITIONAL_ARGS} -Dloginmodule.conf.name=jaas-loginmodule.conf -Dloginmodule.name=RDpropertyfilelogin"
 
-java ${ADDITIONAL_ARGS} \
+JAVA_CALL="${ADDITIONAL_ARGS} \
     -jar /home/vcap/app/rundeck.jar \
     -b ${BASE_PATH} \
-    --skipinstall
+    --skipinstall"
+
+echo "       execute 'java $JAVA_CALL'"
+java ${JAVA_CALL}
