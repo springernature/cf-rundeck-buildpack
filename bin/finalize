@@ -8,24 +8,21 @@ CACHE_DIR=$2
 DEPS_DIR=$3
 INDEX=$4
 
-echo "-----> Creating start script"
-cp ${BIN_DIR}/../startRundeck.sh ${BUILD_DIR}/startRundeck.sh
-chmod +x ${BUILD_DIR}/startRundeck.sh
+RUNDECK_APP_DIR=${BUILD_DIR}/rundeck
+
+mkdir -p "$BUILD_DIR/rundeck"
+
+echo "-----> Creating start scripts"
+cp ${BIN_DIR}/../startRundeck.sh ${RUNDECK_APP_DIR}/startRundeck.sh
+cp ${BIN_DIR}/../replaceEnvVariables.sh ${RUNDECK_APP_DIR}/replaceEnvVariables.sh
+chmod +x ${RUNDECK_APP_DIR}/startRundeck.sh
+chmod +x ${RUNDECK_APP_DIR}/replaceEnvVariables.sh
 
 echo "-----> Installing Rundeck"
 export PATH=$PATH:${BUILD_DIR}/.java/bin
-export RDECK_BASE=${BUILD_DIR}
+export RDECK_BASE=${RUNDECK_APP_DIR}
 
-java -Drdeck.base="/home/vcap/app" -jar ${BUILD_DIR}/rundeck.jar -b ${BUILD_DIR} --installonly
-
-echo "-----> Symlinking properties"
-cd ${BUILD_DIR}/server/config
-rm -f rundeck-config.properties
-ln -s ../../rundeck-config.properties rundeck-config.properties
-
-
-# If there is a jaas login configuration file in the uploaded files
-if [ -f ${BUILD_DIR}/jaas-login.conf ]; then
-    echo "       Found jaas-login.conf, symlinking..."
-    ln -s ../../jaas-login.conf jaas-login.conf
-fi
+java -jar ${RUNDECK_APP_DIR}/rundeck.jar \
+        -b ${RUNDECK_APP_DIR} \
+        --installonly \
+        --configdir "$BUILD_DIR"
