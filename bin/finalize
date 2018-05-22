@@ -30,7 +30,8 @@ replaceEnvVariables () {
 
 echo "-----> Replacing placeholder with env variables"
 cd ${BUILD_DIR}
-find -type f -not -path "./rundeck/*" -exec replaceEnvVariables {} \;
+export -f replaceEnvVariables
+find -type f -not -path "./rundeck/*" -exec bash -c 'replaceEnvVariables "$0"' {} \;
 
 ##################################################################################
 # Install Rundeck
@@ -67,7 +68,7 @@ then
 else
     WEB_XML_PATH=./rundeck/server/exp/webapp/WEB-INF/web.xml
     echo "       RUNDECK_SECURITY_ROLE is set to '$RUNDECK_SECURITY_ROLE', replacing in ${WEB_XML_PATH}"
-    sed -i "s/<role-name>user</role-name>/<role-name>${RUNDECK_SECURITY_ROLE}</role-name>/" ${WEB_XML_PATH}
+    sed -i "s/<role-name>user<\/role-name>/<role-name>${RUNDECK_SECURITY_ROLE}<\/role-name>/" ${WEB_XML_PATH}
 fi
 
 ##################################################################################
