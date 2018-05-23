@@ -61,28 +61,22 @@ sleep 2
 # Install Plugins
 ##################################################################################
 echo "-----> Installing plugins"
+RUNDECK_PLUGIN_FILE=rundeck-plugins.txt
 
-if [ -f "${BUILD_DIR}/rundeck-plugins.yml" ]; then
+if [ -f "${BUILD_DIR}/$RUNDECK_PLUGIN_FILE" ]; then
 
-    RUNDECK_PLUGIN_BASE_URL=https://github.com/rundeck-plugins/
     RUNDECK_PLUGIN_DIR="${RUNDECK_APP_DIR}/libext"
 
     mkdir -p "${RUNDECK_PLUGIN_DIR}"
 
     # read file line by line even if there is no newline at the very end
     # thanks https://stackoverflow.com/questions/10929453/read-a-file-line-by-line-assigning-the-value-to-a-variable#comment42383654_10929511
-    while IFS=': ' read -r PLUGIN_NAME PLUGIN_VERSION || [[ -n $PLUGIN_NAME ]]; do
+    while read -r PLUGIN_URL || [[ -n ${PLUGIN_URL} ]]; do
+        echo "       Installing from $PLUGIN_URL"
+        wget ${PLUGIN_URL} --directory-prefix "${RUNDECK_PLUGIN_DIR}" --no-check-certificate
 
-        PLUGIN_URL="${RUNDECK_PLUGIN_BASE_URL}/${PLUGIN_NAME}/releases/download/v${PLUGIN_VERSION}/${PLUGIN_NAME}-${PLUGIN_VERSION}.jar"
-        PLUGIN_PATH="${RUNDECK_PLUGIN_DIR}/${PLUGIN_NAME}-${PLUGIN_VERSION}.jar"
-
-        echo "       Installing ${PLUGIN_NAME} (${PLUGIN_VERSION})"
-        echo "           from $PLUGIN_URL"
-        echo "           to $PLUGIN_PATH"
-        wget ${PLUGIN_URL} -O "${PLUGIN_PATH}" --no-check-certificate
-
-    done < ${BUILD_DIR}/rundeck-plugins.yml
+    done < ${BUILD_DIR}/${RUNDECK_PLUGIN_FILE}
 else
-    echo "       No rundeck-plugins.yml found, skipping..."
+    echo "       No $RUNDECK_PLUGIN_FILE found, skipping..."
 fi
 
