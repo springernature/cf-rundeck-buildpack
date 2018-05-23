@@ -25,7 +25,10 @@ tar zxf ${BIN_DIR}/jre.zip -C ${BUILD_DIR}/.java --strip-components 1
 
 sleep 2
 
-echo "-----> Installing rundeck"
+##################################################################################
+# Download Rundeck
+##################################################################################
+echo "-----> Downloading rundeck"
 if [ -z ${RUNDECK_VERSION+x} ];
 then
     echo "RUNDECK_VERSION is not set. Add it to your manifest.yml file (i.e. RUNDECK_VERSION: \"2.11.3\") to fix this error."
@@ -37,18 +40,39 @@ wget "$RUNDECK_DIST_URL$RUNDECK_JAR" -O ${BUILD_DIR}/rundeck/rundeck.jar --no-ch
 
 sleep 2
 
+
+##################################################################################
+# Install Rundeck
+##################################################################################
+echo "-----> Installing Rundeck"
+export PATH=$PATH:${BUILD_DIR}/.java/bin
+export RDECK_BASE=${RUNDECK_APP_DIR}
+
+java -jar ${RUNDECK_APP_DIR}/rundeck.jar \
+        -b ${RUNDECK_APP_DIR} \
+        --installonly \
+        -d
+
+sleep 2
+
+##################################################################################
+# Install Plugins
+##################################################################################
 echo "-----> Installing plugins"
 
 if [ -f "${BUILD_DIR}/rundeck-plugins.yml" ]; then
 
     RUNDECK_PLUGIN_BASE_URL=https://github.com/rundeck-plugins/
+    RUNDECK_PLUGIN_DIR="${BUILD_DIR}/rundeck/libext"
+
+    mkdir -p "${RUNDECK_PLUGIN_DIR}"
 
     # read file line by line even if there is no newline at the very end
     # thanks https://stackoverflow.com/questions/10929453/read-a-file-line-by-line-assigning-the-value-to-a-variable#comment42383654_10929511
     while IFS=': ' read -r PLUGIN_NAME PLUGIN_VERSION || [[ -n $PLUGIN_NAME ]]; do
 
         PLUGIN_URL="${RUNDECK_PLUGIN_BASE_URL}/${PLUGIN_NAME}/releases/download/v${PLUGIN_VERSION}/${PLUGIN_NAME}-${PLUGIN_VERSION}.jar"
-        PLUGIN_PATH="${BUILD_DIR}/rundeck/libext/${PLUGIN_NAME}-${PLUGIN_VERSION}.jar"
+        PLUGIN_PATH="${RUNDECK_PLUGIN_DIR}/${PLUGIN_NAME}-${PLUGIN_VERSION}.jar"
 
         echo "       Installing ${PLUGIN_NAME} (${PLUGIN_VERSION})"
 

@@ -36,20 +36,6 @@ find -type f -not -path "./rundeck/*" -not -path "./.java/*" -exec bash -c 'repl
 sleep 2
 
 ##################################################################################
-# Install Rundeck
-##################################################################################
-echo "-----> Installing Rundeck"
-export PATH=$PATH:${BUILD_DIR}/.java/bin
-export RDECK_BASE=${RUNDECK_APP_DIR}
-
-java -jar ${RUNDECK_APP_DIR}/rundeck.jar \
-        -b ${RUNDECK_APP_DIR} \
-        --installonly \
-        -d
-
-sleep 2
-
-##################################################################################
 # Move all user folders to Rundeck folder
 ##################################################################################
 echo "-----> Moving user config to rundeck"
