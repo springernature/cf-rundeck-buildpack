@@ -10,7 +10,6 @@ CACHE_DIR=$2
 DEPS_DIR=$3
 INDEX=$4
 
-RUNDECK_APP_DIR=${BUILD_DIR}/rundeck
 
 ##################################################################################
 # Replacing placeholder with env variables, but not in Rundeck folder

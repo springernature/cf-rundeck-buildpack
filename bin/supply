@@ -10,6 +10,8 @@ CACHE_DIR=$2
 DEPS_DIR=$3
 INDEX=$4
 
+RUNDECK_APP_DIR=${BUILD_DIR}/rundeck
+
 source ${BIN_DIR}/../vars.sh
 
 echo "-----> Installing java"
@@ -35,8 +37,8 @@ then
     exit 1
 fi
 
-mkdir -p ${BUILD_DIR}/rundeck
-wget "$RUNDECK_DIST_URL$RUNDECK_JAR" -O ${BUILD_DIR}/rundeck/rundeck.jar --no-check-certificate -q
+mkdir -p ${RUNDECK_APP_DIR}
+wget "${RUNDECK_DIST_URL}${RUNDECK_JAR}" -O ${RUNDECK_APP_DIR}/rundeck.jar --no-check-certificate -q
 
 sleep 2
 
@@ -63,7 +65,7 @@ echo "-----> Installing plugins"
 if [ -f "${BUILD_DIR}/rundeck-plugins.yml" ]; then
 
     RUNDECK_PLUGIN_BASE_URL=https://github.com/rundeck-plugins/
-    RUNDECK_PLUGIN_DIR="${BUILD_DIR}/rundeck/libext"
+    RUNDECK_PLUGIN_DIR="${RUNDECK_APP_DIR}/libext"
 
     mkdir -p "${RUNDECK_PLUGIN_DIR}"
 
