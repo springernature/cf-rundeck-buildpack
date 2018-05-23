@@ -23,6 +23,8 @@ mkdir ${BUILD_DIR}/.java
 # -C is the directory, strip-components removes the top-level folder (jre_1.8.....)
 tar zxf ${BIN_DIR}/jre.zip -C ${BUILD_DIR}/.java --strip-components 1
 
+sleep 2
+
 echo "-----> Installing rundeck"
 if [ -z ${RUNDECK_VERSION+x} ];
 then
@@ -32,3 +34,28 @@ fi
 
 mkdir -p ${BUILD_DIR}/rundeck
 wget "$RUNDECK_DIST_URL$RUNDECK_JAR" -O ${BUILD_DIR}/rundeck/rundeck.jar --no-check-certificate -q
+
+sleep 2
+
+echo "-----> Installing plugins"
+
+if [ -f "${BUILD_DIR}/rundeck-plugins.yml" ]; then
+
+    RUNDECK_PLUGIN_BASE_URL=https://github.com/rundeck-plugins/
+
+    # read file line by line even if there is no newline at the very end
+    # thanks https://stackoverflow.com/questions/10929453/read-a-file-line-by-line-assigning-the-value-to-a-variable#comment42383654_10929511
+    while IFS=': ' read -r PLUGIN_NAME PLUGIN_VERSION || [[ -n $PLUGIN_NAME ]]; do
+
+        PLUGIN_URL="${RUNDECK_PLUGIN_BASE_URL}/${PLUGIN_NAME}/releases/download/v${PLUGIN_VERSION}/${PLUGIN_NAME}-${PLUGIN_VERSION}.jar"
+        PLUGIN_PATH="${BUILD_DIR}/rundeck/libext/${PLUGIN_NAME}-${PLUGIN_VERSION}.jar"
+
+        echo "       Installing ${PLUGIN_NAME} (${PLUGIN_VERSION})"
+
+        wget ${PLUGIN_URL} -O "${PLUGIN_PATH}" --no-check-certificate -q
+
+    done < ${BUILD_DIR}/rundeck-plugins.yml
+else
+    echo "       No rundeck-plugins.yml found, skipping..."
+fi
+
