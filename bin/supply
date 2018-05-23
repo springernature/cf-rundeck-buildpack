@@ -77,8 +77,9 @@ if [ -f "${BUILD_DIR}/rundeck-plugins.yml" ]; then
         PLUGIN_PATH="${RUNDECK_PLUGIN_DIR}/${PLUGIN_NAME}-${PLUGIN_VERSION}.jar"
 
         echo "       Installing ${PLUGIN_NAME} (${PLUGIN_VERSION})"
-
-        wget ${PLUGIN_URL} -O "${PLUGIN_PATH}" --no-check-certificate -q
+        echo "           from $PLUGIN_URL"
+        echo "           to $PLUGIN_PATH"
+        wget ${PLUGIN_URL} -O "${PLUGIN_PATH}" --no-check-certificate
 
     done < ${BUILD_DIR}/rundeck-plugins.yml
 else
