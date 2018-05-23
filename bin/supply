@@ -80,3 +80,4 @@ else
     echo "       No $RUNDECK_PLUGIN_FILE found, skipping..."
 fi
 
+sleep 2
