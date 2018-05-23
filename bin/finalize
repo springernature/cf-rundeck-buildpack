@@ -72,8 +72,30 @@ then
     echo "       RUNDECK_SECURITY_ROLE is not set, skipping..."
 else
     WEB_XML_PATH=./rundeck/server/exp/webapp/WEB-INF/web.xml
-    echo "       RUNDECK_SECURITY_ROLE is set to '$RUNDECK_SECURITY_ROLE', replacing in ${WEB_XML_PATH}"
+    echo "       RUNDECK_SECURITY_ROLE is set to '$RUNDECK_SECURITY_ROLE' - replacing in ${WEB_XML_PATH}"
     sed -i "s/<role-name>user<\/role-name>/<role-name>${RUNDECK_SECURITY_ROLE}<\/role-name>/" ${WEB_XML_PATH}
+fi
+
+sleep 2
+
+##################################################################################
+# Setup ssh key
+##################################################################################
+echo "-----> Setting ssh key"
+
+if [ -z ${RUNDECK_SSH_KEY+x} ];
+then
+    echo "       RUNDECK_SSH_KEY is not set, skipping..."
+else
+    SSH_DIR=/home/vcap/.ssh
+    SSH_KEY=${SSH_DIR}/id_rsa
+    echo "       RUNDECK_SSH_KEY is set - creating /home/vcap/.ssh/id_rsa"
+
+    mkdir -p ${SSH_DIR}
+    chmod 700 ${SSH_DIR}
+
+    echo "${RUNDECK_SSH_KEY}" > ${SSH_KEY}
+    chmod 600 ${SSH_KEY}
 fi
 
 sleep 2
