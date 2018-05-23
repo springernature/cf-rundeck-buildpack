@@ -73,7 +73,7 @@ if [ -f "${BUILD_DIR}/$RUNDECK_PLUGIN_FILE" ]; then
     # thanks https://stackoverflow.com/questions/10929453/read-a-file-line-by-line-assigning-the-value-to-a-variable#comment42383654_10929511
     while read -r PLUGIN_URL || [[ -n ${PLUGIN_URL} ]]; do
         echo "       Installing from $PLUGIN_URL"
-        wget ${PLUGIN_URL} --directory-prefix "${RUNDECK_PLUGIN_DIR}" --no-check-certificate
+        wget ${PLUGIN_URL} --directory-prefix "${RUNDECK_PLUGIN_DIR}" --no-check-certificate -q
 
     done < ${BUILD_DIR}/${RUNDECK_PLUGIN_FILE}
 else
