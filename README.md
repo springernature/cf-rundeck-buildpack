@@ -26,8 +26,22 @@ Your Cloud Foundry rundeck application should have a folder structure similar to
 ├── manifest.yml
 ├── README.md
 └── rundeck-plugins.txt
+
 ```
-To install plugins just put each link to the plugin you want to use in `rundeck-plugins.txt`. The buildpack will download and install them. If you want to use a different [security role](http://rundeck.org/docs/administration/authenticating-users.html#security-role) you don't have to put a custom `web.xml` in your CF application. Instead you can specify it as environment variable. You can specify the rundeck version you want to use as environment variable as well. The section in your `manifest.yml` should look like: 
+
+### Custom rundeck files 
+All top-level folders of your application will be copied to the installed Rundeck application. Existing files will be overwritten. 
+
+### Plugins
+To install plugins just put a link to the corresponding `.jar` into `rundeck-plugins.txt` (one link per row). The buildpack will download and install them. The file could look like
+
+```
+https://github.com/joscha-alisch/vault-storage/releases/download/1.1.0/vault-storage-1.1.0.jar
+https://github.com/rundeck-plugins/slack-incoming-webhook-plugin/releases/download/v1.1/slack-incoming-webhook-plugin-1.1.jar
+```
+
+### Security-role
+If you want to use a different [security role](http://rundeck.org/docs/administration/authenticating-users.html#security-role) you don't have to put a custom `web.xml` in your CF application (but you can). Instead you can specify it as environment variable. You can specify the rundeck version you want to use as environment variable as well. The section in your `manifest.yml` should look like: 
 
 ```yaml
 ---
