@@ -6,7 +6,7 @@
 This buildpack makes it easy to install [Rundeck](https://www.rundeck.com/open-source) on Cloud Floundry. 
 
 ## Supported platforms
-The buiildpack is tested with Cloud Foundry 6.36.1. 
+This buildpack is tested with Cloud Foundry 6.36.1. 
 
 ## How to install
 Use this repo as your buildpack for your Cloud Foundry app. It [supplies](/bin/supply) Java 8 and the installed (but not started) Rundeck application including all of specified plugins, but not the custom folders and properties. In [finalize](/bin/finalize) the custom folders are get copied to the installed Rundeck application. The finalize step will also execute [`startRundeck.sh`](startRundeck.sh) to start Rundeck.
