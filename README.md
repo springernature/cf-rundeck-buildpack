@@ -49,7 +49,7 @@ applications:
 # ... your application settings ...
   env:
     RUNDECK_VERSION: "2.11.3"
-    RUNDECK_SECURITY_ROLE: "cm-ops"
+    RUNDECK_SECURITY_ROLE: "your-custom-security-role"
 ```
 
 ## Licensing 
