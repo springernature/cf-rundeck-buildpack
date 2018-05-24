@@ -1,7 +1,7 @@
 # Cloud Foundry Rundeck Buildpack
 
 ## Description
-This buildpack makes it easy to install [Rundeck](https://www.rundeck.com/open-source) on Cloud Floundry. 
+This buildpack makes it easy to install [Rundeck](https://www.rundeck.com/open-source) on Cloud Foundry. 
 
 ## Supported platforms
 This buildpack is tested with Cloud Foundry 6.36.1. 
