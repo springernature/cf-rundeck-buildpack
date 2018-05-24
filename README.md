@@ -1,7 +1,5 @@
 # Cloud Foundry Rundeck Buildpack
 
-## ! WIP not usable at the moment
-
 ## Description
 This buildpack makes it easy to install [Rundeck](https://www.rundeck.com/open-source) on Cloud Floundry. 
 
@@ -58,3 +56,4 @@ applications:
 This software is available under the [MIT license](LICENSE).
 
 ## Maintenance
+This buildpack is maintained by the CMS team of Springer Nature.
