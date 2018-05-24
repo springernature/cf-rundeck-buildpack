@@ -9,7 +9,7 @@ This buildpack makes it easy to install [Rundeck](https://www.rundeck.com/open-s
 The buiildpack is tested with Cloud Foundry 6.36.1. 
 
 ## How to install
-Use this repo as your buildpack for your Cloud Foundry app. It [supplies](/bin/supply) Java 8 and the installed (but not started) Rundeck application including all of specified plugins, but not the custom folders and properties. In [finalize](/bin/finalize) the custom folders are get copied to the installed rundeck application get started. 
+Use this repo as your buildpack for your Cloud Foundry app. It [supplies](/bin/supply) Java 8 and the installed (but not started) Rundeck application including all of specified plugins, but not the custom folders and properties. In [finalize](/bin/finalize) the custom folders are get copied to the installed Rundeck application. The finalize step will also execute [`startRundeck.sh`](startRundeck.sh) to start Rundeck.
 
 ## How to use
 Your Cloud Foundry rundeck application should have a folder structure similar to this one:
@@ -28,6 +28,8 @@ Your Cloud Foundry rundeck application should have a folder structure similar to
 └── rundeck-plugins.txt
 
 ```
+### Required fils
+To use this buildpack `jaas-login.conf` and `rundeck-config.properties` hasve to be present. 
 
 ### Custom rundeck files 
 All top-level folders of your application will be copied to the installed Rundeck application. Existing files will be overwritten. 
