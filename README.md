@@ -29,7 +29,7 @@ Your Cloud Foundry rundeck application should have a folder structure similar to
 
 ```
 ### Required fils
-To use this buildpack `jaas-login.conf` and `rundeck-config.properties` have to be present. 
+To use this buildpack `server/config/jaas-login.conf` and `server/config/rundeck-config.properties` have to be present. 
 
 ### Custom rundeck files 
 All top-level folders of your application will be copied to the installed Rundeck application. Existing files will be overwritten. 
