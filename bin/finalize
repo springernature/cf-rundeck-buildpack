@@ -10,7 +10,6 @@ CACHE_DIR=$2
 DEPS_DIR=$3
 INDEX=$4
 
-
 ##################################################################################
 # Replacing placeholder with env variables, but not in Rundeck folder
 ##################################################################################
@@ -84,6 +83,22 @@ else
 fi
 
 sleep 2
+
+
+##################################################################################
+# Bind s3 log bucket
+##################################################################################
+if [ $(which jq) ]; then
+    set +e
+    ACCESS_KEY_ID=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.ACCESS_KEY_ID" --raw-output)
+    SECRET_ACCESS_KEY=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.SECRET_ACCESS_KEY" --raw-output)
+    if [ $? -eq 0 ]; then
+        echo "\naws.accessKeyId=$ACCESS_KEY_ID\n" >> ${BUILD_DIR}/server/config/rundeck-config.properties
+        echo "aws.secretKey=$SECRET_ACCESS_KEY\n" >> ${BUILD_DIR}/server/config/rundeck-config.properties
+    fi
+    set -e
+fi
+
 
 ##################################################################################
 # Create start script
