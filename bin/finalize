@@ -93,8 +93,8 @@ if [ $(which jq) ]; then
     ACCESS_KEY_ID=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.ACCESS_KEY_ID" --raw-output)
     SECRET_ACCESS_KEY=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.SECRET_ACCESS_KEY" --raw-output)
     if [ $? -eq 0 ]; then
-        echo "\naws.accessKeyId=$ACCESS_KEY_ID\n" >> ${BUILD_DIR}/server/config/rundeck-config.properties
-        echo "aws.secretKey=$SECRET_ACCESS_KEY\n" >> ${BUILD_DIR}/server/config/rundeck-config.properties
+        echo "\naws.accessKeyId=$ACCESS_KEY_ID\n" >> ${BUILD_DIR}/rundeck/server/config/rundeck-config.properties
+        echo "aws.secretKey=$SECRET_ACCESS_KEY\n" >> ${BUILD_DIR}/rundeck/server/config/rundeck-config.properties
     fi
     set -e
 fi
