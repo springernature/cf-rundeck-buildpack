@@ -96,8 +96,8 @@ if [ $(which jq) ]; then
     SECRET_ACCESS_KEY=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.SECRET_ACCESS_KEY" --raw-output)
     if [ $? -eq 0 ]; then
         echo "       Setting aws s3 bucket config..."
-        echo "\naws.accessKeyId=$ACCESS_KEY_ID\n" >> ${BUILD_DIR}/rundeck/server/config/rundeck-config.properties
-        echo "aws.secretKey=$SECRET_ACCESS_KEY\n" >> ${BUILD_DIR}/rundeck/server/config/rundeck-config.properties
+        echo -e "\naws.accessKeyId=$ACCESS_KEY_ID\n" >> ${BUILD_DIR}/rundeck/server/config/rundeck-config.properties
+        echo -e "aws.secretKey=$SECRET_ACCESS_KEY\n" >> ${BUILD_DIR}/rundeck/server/config/rundeck-config.properties
     else
         echo "       No s3 service is bound, skipping..."
     fi
