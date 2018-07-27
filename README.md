@@ -37,8 +37,11 @@ To install plugins just put a link to the corresponding `.jar` into `rundeck-plu
 
 ```
 https://github.com/joscha-alisch/vault-storage/releases/download/1.1.0/vault-storage-1.1.0.jar
-https://github.com/rundeck-plugins/slack-incoming-webhook-plugin/releases/download/v1.1/slack-incoming-webhook-plugin-1.1.jar
+https://github.com/rundeck-plugins/rundeck-s3-log-plugin/releases/download/v1.0.5/rundeck-s3-log-plugin-1.0.5.jar
 ```
+
+### S3 Logfile Storage
+In order to use the S3 log storage, just add the plugin to `rundeck-plugins.txt` as explained above and bind an s3-bucket to your cf-app. The buildpack will automatically write the necessary configuration.
 
 ### Security-role
 If you want to use a different [security role](http://rundeck.org/docs/administration/authenticating-users.html#security-role) you don't have to put a custom `web.xml` in your CF application (but you can). Instead you can specify it as environment variable. You can specify the rundeck version you want to use as environment variable as well. The section in your `manifest.yml` should look like: 

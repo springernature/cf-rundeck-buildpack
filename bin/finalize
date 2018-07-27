@@ -10,7 +10,6 @@ CACHE_DIR=$2
 DEPS_DIR=$3
 INDEX=$4
 
-
 ##################################################################################
 # Replacing placeholder with env variables, but not in Rundeck folder
 ##################################################################################
@@ -84,6 +83,43 @@ else
 fi
 
 sleep 2
+
+
+##################################################################################
+# Bind s3 log bucket
+##################################################################################
+echo "-----> Binding s3 log bucket"
+
+set +e
+if [ $(which jq) ]; then
+    ACCESS_KEY_ID=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.ACCESS_KEY_ID" --raw-output)
+    SECRET_ACCESS_KEY=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.SECRET_ACCESS_KEY" --raw-output)
+    BUCKET_NAME=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.BUCKET_NAME" --raw-output)
+    S3_ENDPOINT=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.S3_API_URL" --raw-output)
+
+    if [ $? -eq 0 ]; then
+
+        echo "       Enabling aws s3 as log storage..."
+        RUNDECK_PROPERTIES=${BUILD_DIR}/rundeck/server/config/rundeck-config.properties
+
+        echo -e "\nrundeck.execution.logs.fileStoragePlugin=org.rundeck.amazon-s3\n" >> ${RUNDECK_PROPERTIES}
+
+        echo "       Setting aws s3 bucket config..."
+        PROPERTY_PATH=framework.plugin.ExecutionFileStorage.org.rundeck.amazon-s3
+        FRAMEWORK_PROPERTIES=${BUILD_DIR}/rundeck/etc/framework.properties
+
+        echo -e "\n$PROPERTY_PATH.AWSAccessKeyId=$ACCESS_KEY_ID\n" >> ${FRAMEWORK_PROPERTIES}
+        echo -e "$PROPERTY_PATH.AWSSecretKey=$SECRET_ACCESS_KEY\n" >> ${FRAMEWORK_PROPERTIES}
+        echo -e "$PROPERTY_PATH.bucket=$BUCKET_NAME\n" >> ${FRAMEWORK_PROPERTIES}
+        echo -e "$PROPERTY_PATH.endpoint=$S3_ENDPOINT\n" >> ${FRAMEWORK_PROPERTIES}
+    else
+        echo "       No s3 service is bound, skipping..."
+    fi
+else
+    echo "       jq is not installed, can't parse VCAP_SERVICES..."
+fi
+set -e
+
 
 ##################################################################################
 # Create start script
