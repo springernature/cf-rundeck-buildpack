@@ -94,8 +94,8 @@ set +e
 if [ $(which jq) ]; then
     ACCESS_KEY_ID=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.ACCESS_KEY_ID" --raw-output)
     SECRET_ACCESS_KEY=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.SECRET_ACCESS_KEY" --raw-output)
-    BUCKET_NAME=$(echo ${VCAP_SERVICE} | jq ".[\"aws-s3\"][0].credentials.BUCKET_NAME" --raw-output)
-    S3_ENDPOINT=$(echo ${VCAP_SERVICE} | jq ".[\"aws-s3\"][0].credentials.S3_API_URL" --raw-output)
+    BUCKET_NAME=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.BUCKET_NAME" --raw-output)
+    S3_ENDPOINT=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.S3_API_URL" --raw-output)
 
     if [ $? -eq 0 ]; then
 
