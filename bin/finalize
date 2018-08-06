@@ -48,21 +48,6 @@ done
 sleep 2
 
 ##################################################################################
-# Handle role in web.xml
-##################################################################################
-echo "-----> Setting security role"
-if [ -z ${RUNDECK_SECURITY_ROLE+x} ];
-then
-    echo "       RUNDECK_SECURITY_ROLE is not set, skipping..."
-else
-    WEB_XML_PATH=./rundeck/server/exp/webapp/WEB-INF/web.xml
-    echo "       RUNDECK_SECURITY_ROLE is set to '$RUNDECK_SECURITY_ROLE' - replacing in ${WEB_XML_PATH}"
-    sed -i "s/<role-name>user<\/role-name>/<role-name>${RUNDECK_SECURITY_ROLE}<\/role-name>/" ${WEB_XML_PATH}
-fi
-
-sleep 2
-
-##################################################################################
 # Setup ssh key
 ##################################################################################
 echo "-----> Setting ssh key"

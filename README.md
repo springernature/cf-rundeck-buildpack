@@ -4,7 +4,7 @@
 This buildpack makes it easy to install [Rundeck](https://www.rundeck.com/open-source) on Cloud Foundry. 
 
 ## Supported platforms
-This buildpack is tested with Cloud Foundry 6.36.1-6.37.0. **It only works at the moment with rundeck versions < 3.0.0**
+This buildpack is tested with Cloud Foundry 6.36.1-6.37.0. **It only supports rundeck versions >= 3.0.0**
 
 ## How to install
 Use this repo as your buildpack for your Cloud Foundry app. It [supplies](/bin/supply) Java 8 and rundeck with the version specified by the `RUNDECK_VERSION` environment variable, including all of the specified plugins. In [finalize](/bin/finalize) the uploaded folders are moved to the rundeck application. The finalize step will also create [`startRundeck.sh`](startRundeck.sh) to start Rundeck. 
@@ -42,18 +42,6 @@ https://github.com/rundeck-plugins/rundeck-s3-log-plugin/releases/download/v1.0.
 
 ### S3 Logfile Storage
 In order to use the S3 log storage, just add the plugin to `rundeck-plugins.txt` as explained above and bind an s3-bucket to your cf-app. The buildpack will automatically write the necessary configuration.
-
-### Security-role
-If you want to use a different [security role](http://rundeck.org/docs/administration/authenticating-users.html#security-role) you don't have to put a custom `web.xml` in your CF application (but you can). Instead you can specify it as environment variable. You can specify the rundeck version you want to use as environment variable as well. The section in your `manifest.yml` should look like: 
-
-```yaml
----
-applications:
-# ... your application settings ...
-  env:
-    RUNDECK_VERSION: "2.11.3"
-    RUNDECK_SECURITY_ROLE: "your-custom-security-role"
-```
 
 ## Licensing 
 This software is available under the [MIT license](LICENSE).
