@@ -38,7 +38,7 @@ then
 fi
 
 mkdir -p ${RUNDECK_APP_DIR}
-wget "${RUNDECK_DIST_URL}${RUNDECK_JAR}" -O ${RUNDECK_APP_DIR}/rundeck.jar --no-check-certificate -q
+wget "${RUNDECK_DIST_URL}${RUNDECK_WAR}" -O ${RUNDECK_APP_DIR}/rundeck.war --no-check-certificate -q
 
 sleep 2
 
