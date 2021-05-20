@@ -75,12 +75,23 @@ sleep 2
 ##################################################################################
 echo "-----> Binding s3 log bucket"
 
+
 set +e
 if [ $(which jq) ]; then
-    ACCESS_KEY_ID=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.ACCESS_KEY_ID" --raw-output)
-    SECRET_ACCESS_KEY=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.SECRET_ACCESS_KEY" --raw-output)
-    BUCKET_NAME=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.BUCKET_NAME" --raw-output)
-    S3_ENDPOINT=$(echo ${VCAP_SERVICES} | jq ".[\"aws-s3\"][0].credentials.S3_API_URL" --raw-output)
+    CREDENTIALS=${VCAP_SERVICES}
+
+    if [ $(echo ${CREDENTIALS} | jq ".[\"aws-s3\"][0].credentials.ACCESS_KEY_ID" --raw-output)  ]; then
+        echo "S3 credentials exist in VCAP_SERVICES"
+    elif [ -z "${S3_CREDENTIALS}" ]; then
+        echo "Using S3 credentials from env"
+        CREDENTIALS=${S3_CREDENTIALS}
+    fi
+
+
+    ACCESS_KEY_ID=$(echo ${CREDENTIALS} | jq ".[\"aws-s3\"][0].credentials.ACCESS_KEY_ID" --raw-output)
+    SECRET_ACCESS_KEY=$(echo ${CREDENTIALS} | jq ".[\"aws-s3\"][0].credentials.SECRET_ACCESS_KEY" --raw-output)
+    BUCKET_NAME=$(echo ${CREDENTIALS} | jq ".[\"aws-s3\"][0].credentials.BUCKET_NAME" --raw-output)
+    S3_ENDPOINT=$(echo ${CREDENTIALS} | jq ".[\"aws-s3\"][0].credentials.S3_API_URL" --raw-output)
 
     if [ $? -eq 0 ]; then
 
