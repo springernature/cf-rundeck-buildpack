@@ -79,9 +79,9 @@ echo "-----> Binding s3 log bucket"
 set +e
 if [ $(which jq) ]; then
     CREDENTIALS=${VCAP_SERVICES}
-    if [ -z "${S3_CREDENTIALS}" ]; then
+    if [ -n "${s3_credentials}" ]; then
         echo "Using S3 credentials from env"
-        CREDENTIALS=${S3_CREDENTIALS}
+        CREDENTIALS=${s3_credentials}
     fi
 
 
